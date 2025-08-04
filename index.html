@@ -4,20 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Evermore | Acesso Restrito</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js">
-document.addEventListener("visibilitychange", function () {
-  if (document.hidden && document.getElementById("pdf-container").style.display === "block") {
-    alert("Função bloqueada. Este conteúdo é protegido pela Evermore.");
-  }
-});
-
-window.addEventListener("resize", function () {
-  if (window.innerWidth < 300 || window.devicePixelRatio > 2) {
-    alert("Ajuste de visualização suspeito detectado. Acesso monitorado.");
-  }
-});
-
-</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
   <style>
     @font-face {
       font-family: 'Sherika';
@@ -149,96 +136,84 @@ window.addEventListener("resize", function () {
       pointer-events: none;
       user-select: none;
     }
-  
-@media (max-width: 768px) {
-  #canvas-wrapper {
-    width: 100%;
-    overflow-x: auto;
-  }
+    @media (max-width: 768px) {
+      #canvas-wrapper {
+        width: 100%;
+        overflow-x: auto;
+      }
+      canvas {
+        width: 100% !important;
+        height: auto !important;
+      }
+      #page-controls {
+        display: none;
+      }
+      .mobile-arrows {
+        display: flex;
+        justify-content: space-between;
+        position: fixed;
+        top: 50%;
+        left: 0;
+        right: 0;
+        padding: 0 10px;
+        transform: translateY(-50%);
+        z-index: 999;
+      }
+      .mobile-arrows button {
+        background: rgba(0,0,0,0.6);
+        border: none;
+        color: white;
+        font-size: 24px;
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      #go-to {
+        flex-direction: column;
+        align-items: center;
+      }
+      #go-to input {
+        width: 70%;
+        max-width: 200px;
+      }
+      .logo {
+        width: 140px;
+      }
+      #top-bar {
+        flex-direction: column;
+        gap: 10px;
+      }
+      #top-bar img {
+        width: 60px;
+        height: 60px;
+      }
+    }
 
-  canvas {
-    width: 100% !important;
-    height: auto !important;
-  }
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
 
-  #page-controls {
-    display: none;
-  }
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #111;
+        color: #eee;
+      }
+      .login-input,
+      .login-button,
+      #top-bar a {
+        background-color: #333;
+        color: #fff;
+      }
+    }
 
-  .mobile-arrows {
-    display: flex;
-    justify-content: space-between;
-    position: fixed;
-    top: 50%;
-    left: 0;
-    right: 0;
-    padding: 0 10px;
-    transform: translateY(-50%);
-    z-index: 999;
-  }
-
-  .mobile-arrows button {
-    background: rgba(0,0,0,0.6);
-    border: none;
-    color: white;
-    font-size: 24px;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
-  #go-to {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #go-to input {
-    width: 70%;
-    max-width: 200px;
-  }
-
-  .logo {
-    width: 140px;
-  }
-
-  #top-bar {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  #top-bar img {
-    width: 60px;
-    height: 60px;
-  }
-}
-
-* {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #111;
-    color: #eee;
-  }
-
-  .login-input,
-  .login-button,
-  #top-bar a {
-    background-color: #333;
-    color: #fff;
-  }
-}
-
-canvas {
-  touch-action: pan-y;
-}
-
-</style>
+    canvas {
+      touch-action: pan-y;
+    }
+  </style>
 </head>
 <body oncontextmenu="return false" onkeydown="return disableShortcuts(event)">
   <div id="login-container">
@@ -276,11 +251,10 @@ canvas {
     <p id="page-info"></p>
 
     <div id="canvas-wrapper">
-<div class="mobile-arrows">
-  <button onclick="prevPage()">⬅</button>
-  <button onclick="nextPage()">➡</button>
-</div>
-
+      <div class="mobile-arrows">
+        <button onclick="prevPage()">⬅</button>
+        <button onclick="nextPage()">➡</button>
+      </div>
       <canvas id="pdf-render"></canvas>
       <div id="pdf-overlay"></div>
     </div>
@@ -409,19 +383,22 @@ canvas {
         return false;
       }
     }
-  
-document.addEventListener("visibilitychange", function () {
-  if (document.hidden && document.getElementById("pdf-container").style.display === "block") {
-    alert("Função bloqueada. Este conteúdo é protegido pela Evermore.");
-  }
-});
 
-window.addEventListener("resize", function () {
-  if (window.innerWidth < 300 || window.devicePixelRatio > 2) {
-    alert("Ajuste de visualização suspeito detectado. Acesso monitorado.");
-  }
-});
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden && document.getElementById("pdf-container").style.display === "block") {
+        alert("Função bloqueada. Este conteúdo é protegido pela Evermore.");
+      }
+    });
 
-</script>
+    function isMobile() {
+      return /Mobi|Android|iPhone/i.test(navigator.userAgent);
+    }
+
+    window.addEventListener("resize", function () {
+      if (!isMobile() && (window.innerWidth < 300 || window.devicePixelRatio > 2)) {
+        alert("Ajuste de visualização suspeito detectado. Acesso monitorado.");
+      }
+    });
+  </script>
 </body>
 </html>
